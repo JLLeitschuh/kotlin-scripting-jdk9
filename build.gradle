@@ -1,1 +1,17 @@
-// configuration
+plugins {
+    id "org.jetbrains.kotlin.jvm" version "1.1.4-3" apply false
+}
+
+allprojects {
+    apply plugin: "org.jetbrains.kotlin.jvm"
+
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        compile("org.jetbrains.kotlin:kotlin-compiler-embeddable")
+        compile("org.jetbrains.kotlin:kotlin-stdlib")
+        compile("org.jetbrains.kotlin:kotlin-reflect")
+    }
+}

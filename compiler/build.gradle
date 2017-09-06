@@ -1,0 +1,12 @@
+apply plugin: 'application'
+
+mainClassName = "compiler.Main"
+
+dependencies {
+    compile(project(":api"))
+    compile("org.slf4j:slf4j-api:1.7.10")
+    compile("org.slf4j:slf4j-simple:1.7.10")
+    compile("org.jetbrains.kotlin:kotlin-sam-with-receiver-compiler-plugin") {
+        transitive = false
+    }
+}
