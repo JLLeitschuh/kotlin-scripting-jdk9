@@ -8,3 +8,14 @@ https://github.com/gradle/kotlin-dsl/issues/454
 
 This repository is mostly cloned from the logic that can be found here:
 https://github.com/bamboo/kotlin-sam-with-receiver-repro
+
+## Demonstrating the Bug
+
+### Enviroment
+
+JDK 9 assigned to your `JAVA_HOME` environment variable.
+
+## Running
+
+You can run either in IntelliJ or via Gradle.
+To run via Gradle simply run `./gradlew :compiler:run`
