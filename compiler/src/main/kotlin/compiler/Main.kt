@@ -65,6 +65,7 @@ class Resolver : DependenciesResolver {
     val classPath: List<File>
         get() {
             println("Getting Classpath")
+            // This is a very hacky way of getting the directory of the JAR's. Hacky, but it works.
             val classPath = listOf(
                 api.Action::class,
                 kotlin.PublishedApi::class,
