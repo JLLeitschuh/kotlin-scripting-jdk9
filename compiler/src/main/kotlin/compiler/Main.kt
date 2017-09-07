@@ -5,11 +5,11 @@ import api.DefaultGradleProject
 import api.GradleProject
 
 import org.jetbrains.kotlin.script.KotlinScriptDefinitionFromAnnotatedTemplate
+import org.jetbrains.kotlin.utils.PathUtil
 
 import org.slf4j.LoggerFactory
 
 import java.io.File
-import java.net.URLClassLoader
 
 import kotlin.script.dependencies.Environment
 import kotlin.script.dependencies.ScriptContents
@@ -25,11 +25,16 @@ abstract class BuildScript(project: GradleProject) : GradleProject by project
 
 fun main(vararg args: String) {
 
+    // I've commented out this example as it is more complicated.
+    // We should get the simple case working first
+//    val buildscript = """
+//         println(copySpec {
+//            from("src")
+//            into("build")
+//         })
+//    """
     val buildscript = """
-         println(copySpec {
-            from("src")
-            into("build")
-         })
+        println("working under JDK 9!!!")
     """
 
     val outputDirectory = File("build/classes")
@@ -58,13 +63,20 @@ class Resolver : DependenciesResolver {
 
     private
     val classPath: List<File>
-        get() = (javaClass.classLoader as URLClassLoader).urLs.map { File(it.toURI()) }.filter {
-            it.isDirectory
-                || it.name == "api-1.0.jar"
-                || isKotlinJar(it.name)
-        }
+        get() {
+            println("Getting Classpath")
+            val classPath = listOf(
+                api.Action::class,
+                kotlin.PublishedApi::class,
+                kotlin.reflect.KClass::class,
+                Resolver::class
+            ).map {
+                it.java.protectionDomain.codeSource.location.toURI()
+            }.map {
+                File(it)
+            } + PathUtil.getJdkClassesRootsFromCurrentJre()
 
-    private
-    fun isKotlinJar(name: String): Boolean =
-        name.startsWith("kotlin-stdlib-") || name.startsWith("kotlin-reflect-")
+            println("Got classpath: $classPath")
+            return classPath
+        }
 }

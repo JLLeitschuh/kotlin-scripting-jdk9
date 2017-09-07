@@ -74,7 +74,7 @@ inline fun <T> withMessageCollectorFor(log: Logger, action: (MessageCollector) -
             OutputMessageUtil.renderException(ex),
             MessageUtil.psiElementToMessageLocation(ex.element))
 
-        throw IllegalStateException("Internal error: ${OutputMessageUtil.renderException(ex)}")
+        throw IllegalStateException("Internal error: ${OutputMessageUtil.renderException(ex)}", ex)
     }
 }
 
@@ -134,8 +134,7 @@ fun messageCollectorFor(log: Logger): MessageCollector =
                 CompilerMessageSeverity.WARNING   -> log.info("Warning: " + msg())
                 CompilerMessageSeverity.LOGGING   -> log.info(msg())
                 CompilerMessageSeverity.INFO      -> log.info(msg())
-                else                              -> {
-                }
+                else                              -> log.info(msg())
             }
         }
     }
